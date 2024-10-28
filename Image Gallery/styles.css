@@ -6,12 +6,15 @@
 }
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+    background-image: url('imagewall.webp'); /* Update with the correct path */
+    background-size: cover;           /* Scales the image to cover the entire background */
+    background-position: center;      /* Centers the image */
+    background-attachment: fixed;     /* Keeps the image fixed when scrolling */
+    background-repeat: no-repeat;     /* Prevents tiling */
+    margin: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
 }
 
 /* Header styling */
@@ -22,7 +25,7 @@ header {
 
 h1 {
     font-size: 3em;
-    color: #444;
+    color: white;
 }
 
 /* Gallery styling */
@@ -47,19 +50,50 @@ h1 {
     transform: scale(1.05);
 }
 
-/* Button styling */
-.alert-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1em;
+
+.image-form {
+    margin: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.image-form input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.image-form button {
+    padding: 8px 16px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
 }
 
-.alert-button:hover {
+.image-form button:hover {
     background-color: #0056b3;
+}
+
+.img-container {
+    position: relative;
+    display: inline-block;
+}
+
+.delete-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #ff1a1a;
 }

@@ -11,12 +11,13 @@
         <h1>Image Gallery</h1>
     </header>
     <main>
-        <div class="gallery">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3TgpEY4lshs8-sDkv1CD14c-518Ai0d1XiQ&s" alt="Sample Image ">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3TgpEY4lshs8-sDkv1CD14c-518Ai0d1XiQ&s" alt="Sample Image ">
-            <!-- Add more sample images as needed -->
+        <form id="imageForm" class="image-form">
+            <input type="url" id="imageUrl" placeholder="Enter Image URL" required>
+            <button type="submit">Add Image</button>
+        </form>
+        <div class="gallery" id="gallery">
+            <!-- Dynamically added images will appear here -->
         </div>
-        <button class="alert-button" onclick="showAlert()">Click me for alert</button>
     </main>
     <script src="script.js"></script>
 </body>
