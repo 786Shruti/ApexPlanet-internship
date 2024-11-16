@@ -11,15 +11,24 @@
         <h1>Image Gallery</h1>
     </header>
     <main>
-        <form id="imageForm" class="image-form">
-            <input type="url" id="imageUrl" placeholder="Enter Image URL" required>
+        <form id="imageForm">
+            <input type="text" id="imageUrl" placeholder="Enter image URL">
             <button type="submit">Add Image</button>
         </form>
-        <div class="gallery" id="gallery">
-            <!-- Dynamically added images will appear here -->
+
+        <input type="text" id="keyword" placeholder="Search for images...">
+        <button id="fetchImages">Fetch Images</button>
+
+        <div id="gallery"></div>
+
+        <!-- Carousel for viewing images in larger size -->
+        <div id="carousel" style="display:none;">
+            <img id="carouselImage" src="" alt="Carousel Image">
+            <button id="prevBtn">Prev</button>
+            <button id="nextBtn">Next</button>
         </div>
+
     </main>
     <script src="script.js"></script>
 </body>
 </html>
-
