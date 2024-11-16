@@ -23,11 +23,7 @@ window.onload = function () {
 function addImage(url) {
     const div = document.createElement("div");
     div.classList.add("gallery-item");
-    // Create a container for the image and delete button
-    const imgContainer = document.createElement("div");
-    imgContainer.classList.add("img-container");
 
-    // Create the image element and set its source
     const img = document.createElement("img");
     img.src = url;
     img.alt = "User added image";
@@ -45,29 +41,6 @@ function addImage(url) {
     div.appendChild(deleteBtn);
     gallery.appendChild(div);
     carouselImages.push(url);
-
-    // Add event listener for modal functionality (Stage 3 enhancement)
-    img.addEventListener("click", function() {
-        showModal(url);
-    });
-
-    // Create a delete button
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete-button");
-    deleteButton.textContent = "Delete";
-
-    // Event listener to delete image from DOM and local storage
-    deleteButton.onclick = function() {
-        imgContainer.remove(); // Remove from the DOM
-        removeImageFromLocal(url); // Update local storage
-    };
-
-    // Append image and delete button to the container
-    imgContainer.appendChild(img);
-    imgContainer.appendChild(deleteButton);
-
-    // Append the container to the gallery
-    gallery.appendChild(imgContainer);
 }
 
 // Delete image from gallery and local storage
@@ -144,43 +117,5 @@ fetchImagesButton.addEventListener("click", async function () {
         }
     } catch (error) {
         console.error("Error fetching images:", error);
-
-// Show image in a modal when clicked (carousel effect)
-function showModal(imageUrl) {
-    // Create a modal container to cover the whole screen
-    const modal = document.createElement("div");
-    modal.classList.add("modal");
-
-    // Create the image element
-    const img = document.createElement("img");
-    img.src = imageUrl;
-    img.alt = "Full-screen image";
-    img.classList.add("full-screen-image");
-
-    // Append the image to the modal
-    modal.appendChild(img);
-
-    // Close modal on click
-    modal.addEventListener("click", function() {
-        modal.remove();
-    });
-
-    // Append modal to body
-    document.body.appendChild(modal);
-}
-
-// Form submit event to add image from URL
-form.addEventListener("submit", function(event) {
-    event.preventDefault();
-    const imageUrl = document.getElementById("imageUrl").value.trim();
-    
-    // Validate URL format for image files
-    if (imageUrl && imageUrl.match(/\.(jpeg|jpg|png|gif)$/)) {
-        addImage(imageUrl);            // Add image to gallery
-        saveImageToLocal(imageUrl);     // Save image URL to local storage
-        document.getElementById("imageUrl").value = ""; // Clear input field
-    } else {
-        alert("Please enter a valid image URL ending in .jpeg, .jpg, .png, or .gif.");
     }
 });
-
