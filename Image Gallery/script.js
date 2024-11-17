@@ -10,12 +10,29 @@ const nextBtn = document.getElementById("nextBtn");
 let currentCarouselIndex = 0;
 let carouselImages = [];
 
-// Default API Key for Pixabay API
-const API_KEY = "47116047-47d590a30b47e5dcab1732a74"; // Replace with your actual API key
+async function getApiKey() {
+    try {
+        const response = await fetch('http://localhost/My_project/Image%20Gallery/getApiKey.php');
+        
+        // Check if the response is OK (200 status)
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return data.apiKey; // Return the API key from the response
+    } catch (error) {
+        console.error('Error fetching API key:', error);
+        alert('Error fetching API key!');
+    }
+}
+
+
 
 // Load saved images from local storage
 window.onload = function () {
     const savedImages = JSON.parse(localStorage.getItem("images")) || [];
+    carouselImages = savedImages; // Set for carousel
     savedImages.forEach((imageUrl) => addImage(imageUrl));
 };
 
@@ -26,7 +43,7 @@ function addImage(url) {
 
     const img = document.createElement("img");
     img.src = url;
-    img.alt = "User added image";
+    img.alt = "Image";
     img.addEventListener("click", () => openCarousel(url));
 
     const deleteBtn = document.createElement("button");
@@ -40,7 +57,6 @@ function addImage(url) {
     div.appendChild(img);
     div.appendChild(deleteBtn);
     gallery.appendChild(div);
-    carouselImages.push(url);
 }
 
 // Delete image from gallery and local storage
@@ -76,7 +92,7 @@ form.addEventListener("submit", function (event) {
 function openCarousel(startImage) {
     currentCarouselIndex = carouselImages.indexOf(startImage);
     carouselImage.src = carouselImages[currentCarouselIndex];
-    carousel.style.display = "block";
+    carousel.style.display = "flex"; // Use "flex" for centering
 }
 
 // Close carousel
@@ -100,18 +116,29 @@ nextBtn.addEventListener("click", (event) => {
 // Fetch images based on a keyword provided by the user
 fetchImagesButton.addEventListener("click", async function () {
     const keyword = document.getElementById("keyword").value.trim();
-    
+
     if (keyword === "") {
         alert("Please enter a search keyword.");
         return;
     }
 
     try {
-        const response = await fetch(`https://pixabay.com/api/?key=${API_KEY}&q=${keyword}&per_page=10`);
+        // Fetch API key dynamically
+        const apiKey = await getApiKey();  // Fetch the key
+        if (!apiKey) {
+            alert("API Key could not be retrieved.");
+            return;
+        }
+
+        // Make the request to Pixabay with the fetched API key
+        const response = await fetch(`https://pixabay.com/api/?key=${apiKey}&q=${keyword}&per_page=10`);
         const data = await response.json();
 
         if (data.hits && data.hits.length > 0) {
-            data.hits.forEach((item) => addImage(item.webformatURL));
+            data.hits.forEach((item) => {
+                addImage(item.webformatURL);
+                saveImageToLocal(item.webformatURL);
+            });
         } else {
             alert("No images found for your search.");
         }
@@ -119,3 +146,4 @@ fetchImagesButton.addEventListener("click", async function () {
         console.error("Error fetching images:", error);
     }
 });
+
